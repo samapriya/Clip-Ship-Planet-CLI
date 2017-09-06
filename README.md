@@ -1,137 +1,136 @@
-# Jetstream Unofficial Addon for Atmosphere VM(s)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.844018.svg)](https://doi.org/10.5281/zenodo.844018)
-[![Jetstream](https://img.shields.io/badge/SupportedBy%3A-JetStream-brightgreen.svg)](https://jetstream-cloud.org/)
+# Clip Ship Planet CLI addon
 
-Jetstream provides researchers and students with a unique approach to cloud computing and data analysis on demand. Moving away from a job submission model which is more pervasice on High Performance Cluster computing this allows users to create user-friendly installs of “virtual machines” which can then be custom installed with softwares and packages and even imaged further to make science replicable. The system in theory also allows a BYoOS (Bring your own Operating System) designed to further allow more flexibility while sharing the backbone of high performance compute and cloud storage infrastructure. The idea of imaging a system allows the user to not only share their data or analysis but their entire setup that allows them to run the analysis making it a plug and play model in terms of research replication and transference. As the NSF project proceeds further it allows users to apply for grants or allocation time on the machines and indeed renew these free of cost for researchers and students. 
+## Installation
+We assume Earth Engine Python API is installed and EE authorised as desribed [here](https://developers.google.com/earth-engine/python_install). We also assume Planet Python API is installed you can install by simply running.
+```
+pip install planet
+```
+Further instructions can be found [here](https://www.planet.com/docs/api-quickstart-examples/cli/) 
 
-For my work looking at developing a Satellite Imagery Input Output (IO) pipeline I was allocated a Jetstream grant and while using a couple of these systems I always thought it would be easier to query number of instances and volumes running on my account, my burn rate and left over allocation over sometime. And something useful was the possibility to perform system actions such as shutdown(stop), restart, start, reboot among others programatically. It is with this idea that I approach the API backend at JetStream and built just a few tools to allows users to perform these actions without the need to log into their web browsers and allows user to call upon instance actions through a rough command line interface (CLI).
+**This toolbox also uses some functionality from GDAL**
+For installing GDAL in Ubuntu
+```
+sudo add-apt-repository ppa:ubuntugis/ppa && sudo apt-get update
+sudo apt-get install gdal-bin
+```
+For Windows I found this [guide](https://sandbox.idre.ucla.edu/sandbox/tutorials/installing-gdal-for-windows) from UCLA
 
-I would love to thank Steve Gregory who is getting the Official API ready for release and Jeremy Fischer who have helped me in more ways and allowed me to keep asking questions and learn from them to build the unofficial api for Jetstream.
+To install **Planet-GEE-Pipeline-CLI:**
+```
+git clone https://github.com/samapriya/Planet-GEE-Pipeline-CLI.git
+cd Planet-GEE-Pipeline-CLI && pip install .
+```
+This release also contains a windows installer which bypasses the need for you to have admin permission, it does however require you to have python in the system path meaning when you open up command prompt you should be able to type python and start it within the command prompt window. Post installation using the installer you can just call ppipe using the command prompt similar to calling python. Give it a go post installation type
+```
+ppipe -h
+```
+Installation is an optional step; the application can be also run directly by executing ppipe.py script. The advantage of having it installed is being able to execute ppipe as any command line tool. I recommend installation within virtual environment. To install run
+```
+python setup.py develop or python setup.py install
 
-The Jetstream's mission and funding is supported by NSF and any and all citations are useful so please make sure to cite and citation information can be found at the end of this readme or use the [link](https://jetstream-cloud.org/research/citing-jetstream.php)
-
-*Note: I have used this on the Jetstream-IU system but it should work on the TACC end as well and the information I decided to show per instance is based on what I used, there are much more information generated but the tool prints a subset*
-
-![CLI](http://i.imgur.com/52eJzp6.gif)
-
-## Table of contents
-* [Getting started](#getting-started)
-    * [Save API Password as Credential](#save-api-password-as-credential)
-    * [Query Current Instances](#query-current-instances)
-    * [Query Current Volumes](#query-current-volumes)
-    * [Perform Instance Actions](#perform-instance-actions)
+In a linux distribution
+sudo python setup.py develop or sudo python setup.py install
+```
 
 ## Getting started
-To get started you need an XSEDE account of a Jetstream Rapid Access Account and you can create one using instructions [here](https://iujetstream.atlassian.net/wiki/display/JWT/Get+a+Jetstream+Rapid+Access+account). Once into the system you will still need an allocation and the wiki page setup by the project explains these along with everything you can do step by step [here](https://iujetstream.atlassian.net/wiki/spaces/JWT/overview). Once you have a project allocation and create some instances and volumes you can query and perform instance actions.
 
-Just browse to the folder and perform a `python jetstream.py -h`:
+As usual, to print help:
 ```
-usage: jetstream.py [-h] { ,jskey,instance,volume,action} ...
+usage: pclip.py [-h]
+                {
+                ,planetkey,aoijson,activate,aoiupdate,idlist,geojsonc,jsonc,downloadclips,sort}
+                ...
 
-JetStream API Unofficial
+Planet Clip Tools CLI
 
 positional arguments:
-  { ,jskey,instance,volume,action}
+  { ,planetkey,aoijson,activate,aoiupdate,idlist,geojsonc,jsonc,downloadclips,sort}
                         -------------------------------------------
-                        -----Choose from JetStream Tools Below-----
+                        -----Choose from Planet Clip Tools-----
                         -------------------------------------------
-    jskey               Allows you to save your JetStream API Password
-    instance            Allows users to print out all instance information
-    volume              Allows users to print out all volume information
-    action              Allows user to start, suspend,resume,reboot instance
+    planetkey           Enter your planet API Key
+    aoijson             Tool to convert KML, Shapefile,WKT,GeoJSON or Landsat
+                        WRS PathRow file to AreaOfInterest.JSON file with
+                        structured query for use with Planet API 1.0
+    activate            Tool to query and/or activate Planet Assets
+    aoiupdate           Allows users to batch update assets using a directory
+                        with json or list of json(Sends updates on Slack if
+                        slack key added)
+    idlist              Allows users to generate an id list for the selected
+                        item and asset type for example item_asset=
+                        PSOrthoTile analytic/PSScene3Band visual. This is used
+                        with the clip tool
+    geojsonc            Allows users to batch submit clipping request to the
+                        Planet Clip API using geometry in geojson file
+    jsonc               Allows users to batch submit clipping request to the
+                        Planet Clip API using geometry in structured json
+                        file. This is preferred because the structured JSON
+                        allows the activate tool to stream line asset ids
+                        being requested and to extract geometry from the same
+                        file
+    downloadclips       Allows users to batch download clipped assets post
+                        computation using a directory path(Requires you to
+                        first activate and run geojson or json tool)
+    sort                Allows users to unzip downloaded files to new folder
+                        and sorts into images and metadata
 
 optional arguments:
   -h, --help            show this help message and exit
-
 ```
 
-## Save API Password as Credential
-This tool allows the user to save the credential or password file into ```users/.config/jetstream``` making sure that they are user specific and are not shared on a system resource or location. This password is not your XSEDE or Jetstream Rapid Access account password but a API password which has to be requested atleast for now. It uses a getpass implementation and write the password as a csv and the other tools first tries to read this and if not present asks for your password.
+To obtain help for a specific functionality, simply call it with _help_
+switch, e.g.: `ppipe upload -h`. If you didn't install ppipe, then you
+can run it just by going to _ppipe_ directory and running `python
+ppipe.py [arguments go here]`
 
+
+## Usage examples
+Usage examples have been segmented into two parts focusing on both planet tools as well as earth engine tools, earth engine tools include additional developments in CLI which allows you to recursively interact with their python API
+
+## Planet Tools
+The Planet Toolsets consists of tools required to access control and download planet labs assets (PlanetScope and RapidEye OrthoTiles) as well as parse metadata in a tabular form which maybe required by other applications.
+
+### Planet Key
+This tool basically asks you to input your Planet API Key using a password prompt this is then used for all subsequent tools
 ```
-usage: jetstream.py jskey [-h]
+usage: ppipe.py planetkey [-h]
 
 optional arguments:
   -h, --help  show this help message and exit
-
 ```
 
-### Query Current Instances
-As the name stated this allows the user to query instances related to your account. This queries all instances for now and prints certain key parameters(these are a subset that I selected for my use) but can be easily modified in the code to print other information.
-
-```
-usage: jetstream.py instance [-h] [--username USERNAME] [--password PASSWORD]
-
-optional arguments:
-  -h, --help           show this help message and exit
-  --username USERNAME  Jetstream API username
-  --password PASSWORD  Jetstream API password: "Optional if you already saved
-                       jetstream key"
-```
-Incase you have already saved your password a setup would be simply
-
-```
-python jetstream.py instance --username "johndoe"
-```
-if not
-```
-python jetstream.py instance --username "johndoe" --password "pass"
-```
-## Query Current Volumes
-The current volume options queries current volumes on your project. Note that the current info does not tell you which instance a volume is attached to which might be a nice endpoint readout to have.
-
-```
-usage: jetstream.py volume [-h] [--username USERNAME] [--password PASSWORD]
-
-optional arguments:
-  -h, --help           show this help message and exit
-  --username USERNAME  Jetstream API username
-  --password PASSWORD  Jetstream API password: "Optional if you already saved
-                       jetstream key"
-```
-Incase you have already saved your password a setup would be simply
-```
-python jetstream.py volume --username "johndoe"
-```
-if not
-```
-python jetstream.py volume --username "johndoe" --password "pass"
-```
+If using on a private machine the Key is saved as a csv file for all future runs of the tool.
  
-## Perform Instance Actions
-This is perhaps one of the most important aspect of building this tool, the idea was to get a read out or a email message when a system has been idle for sometime and then auto shutdown or initiate a shutdown remotely. This command allows you to choose the instance you want to perform an instance action using the instance ID mentioned on your instance profile page. The next thing you need to know is what kind of action you want to perform. There are certain things that will create a conflict, for example: If you are trying to shutdown an already shutoff system or start an already active system. In that case it will print out a conflict message.
-
+### AOI JSON
+The aoijson tab within the toolset allows you to create filters and structure your existing input file to that which can be used with Planet's API. The tool requires inputs with start and end date, along with cloud cover. You can choose from multiple input files types such as KML, Zipped Shapefile, GeoJSON, WKT or even Landsat Tiles based on PathRow numbers. The geo option asks you to select existing files which will be converted into formatted JSON file called aoi.json. If using WRS as an option just type in the 6 digit PathRow combination and it will create a json file for you.
 ```
-usage: jetstream.py action [-h] [--username USERNAME] [--password PASSWORD]
-                           [--id ID] [--action ACTION]
+usage: ppipe.py aoijson [-h] [--start START] [--end END] [--cloud CLOUD]
+                     [--inputfile INPUTFILE] [--geo GEO] [--loc LOC]
 
 optional arguments:
-  -h, --help           show this help message and exit
-  --username USERNAME  Jetstream API username
-  --password PASSWORD  Jetstream API password: "Optional if you already saved
-                       jetstream key"
-  --id ID              Jetstream Instance ID on your Instance Detail Page
-  --action ACTION      Jetstream Instance Action,
-                       "start|stop|suspend|resume|reboot"
-```
-Incase you have already saved your password a setup would be simply
-```
-python jetstream.py action --username "johndoe" --id "00000" --action "start"
-```
-if not 
-```
-python jetstream.py action --username "johndoe" --password "pass" --id "00000" --action "start"
+  -h, --help            show this help message and exit
+  --start START         Start date in YYYY-MM-DD?
+  --end END             End date in YYYY-MM-DD?
+  --cloud CLOUD         Maximum Cloud Cover(0-1) representing 0-100
+  --inputfile INPUTFILE
+                        Choose a kml/shapefile/geojson or WKT file for
+                        AOI(KML/SHP/GJSON/WKT) or WRS (6 digit RowPath
+                        Example: 023042)
+  --geo GEO             map.geojson/aoi.kml/aoi.shp/aoi.wkt file
+  --loc LOC             Location where aoi.json file is to be stored
 ```
 
+### Activate or Check Asset
+The activatepl tab allows the users to either check or activate planet assets, in this case only PSOrthoTile and REOrthoTile are supported because I was only interested in these two asset types for my work but can be easily extended to other asset types. This tool makes use of an existing json file sturctured for use within Planet API or the aoi.json file created earlier
+```
+usage: ppipe.py activatepl [-h] [--aoi AOI] [--action ACTION] [--asst ASST]
 
-I would like to thank my grant from JetStream TG-GEO160014. You can cite this tool as 
+optional arguments:
+  -h, --help       show this help message and exit
+  --aoi AOI        Choose aoi.json file created earlier
+  --action ACTION  choose between check/activate
+  --asst ASST      Choose between planet asset types (PSOrthoTile
+                   analytic/REOrthoTile analytic/PSOrthoTile
+                   analytic_xml/REOrthoTile analytic_xml
 
-**Samapriya Roy. (2017, August 16). samapriya/jetstream-unofficial-addon: jetstream-unofficial-addon. Zenodo. http://doi.org/10.5281/zenodo.844018**
-
-And I would like to include Jetstream citations for others to use
-
-**Stewart, C.A., Cockerill, T.M., Foster, I., Hancock, D., Merchant, N., Skidmore, E., Stanzione, D., Taylor, J., Tuecke, S., Turner, G., Vaughn, M., and Gaffney, N.I., Jetstream: a self-provisioned, scalable science and engineering cloud environment. 2015, In Proceedings of the 2015 XSEDE Conference: Scientific Advancements Enabled by Enhanced Cyberinfrastructure. St. Louis, Missouri.  ACM: 2792774.  p. 1-8. http://dx.doi.org/10.1145/2792745.2792774**
-
-and
-
-**John Towns, Timothy Cockerill, Maytal Dahan, Ian Foster, Kelly Gaither, Andrew Grimshaw, Victor Hazlewood, Scott Lathrop, Dave Lifka, Gregory D. Peterson, Ralph Roskies, J. Ray Scott, Nancy Wilkins-Diehr, "XSEDE: Accelerating Scientific Discovery", Computing in Science & Engineering, vol.16, no. 5, pp. 62-74, Sept.-Oct. 2014, doi:10.1109/MCSE.2014.80**
+```
