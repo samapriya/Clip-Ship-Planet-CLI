@@ -49,7 +49,7 @@ def sort_from_parser(args):
 
 spacing="                               "
 def main(args=None):
-    parser = argparse.ArgumentParser(description='Planet Batch Tools and Slack Addons')
+    parser = argparse.ArgumentParser(description='Planet Clip Tools CLI')
 
     subparsers = parser.add_subparsers()
 
