@@ -2,7 +2,7 @@
 Planet's Clip API was a compute API designed to allowed users to clip the images to their area of interest. This would save them time in preprocessing and also allow the user to save on their area quota which might have restrictions. Based on Planet's Education and Research Program this quota is set at 10,000 square kilometers a month, which means saving up on quota is very useful. The discussion also led to an important clarification that users are in fact charged only for the area downloaded post clip if using the clip operation and hence this tool. This tool takes a sequential approach from activation to generating a clip request for multiple images activated and then processing the download tokens to actually download the clipped image files. The tool also consists of a sort function which allows the user to extract the files and sort them by type and deleting the original files to save on space.
 
 ## Installation
-To install the Clip-Ship-Planet-CLI you can simple perform the following action with Linux(Tested on Ubuntu):
+To install the Clip-Ship-Planet-CLI you can simply perform the following action with Linux(Tested on Ubuntu 16):
 ```
 git clone https://github.com/samapriya/Clip-Ship-Planet-CLI.git
 cd Clip-Ship-Planet-CLI && pip install
@@ -103,8 +103,11 @@ optional arguments:
   --geo GEO             map.geojson/aoi.kml/aoi.shp/aoi.wkt file
   --loc LOC             Location where aoi.json file is to be stored
 ```
-As with the [Planet-GEE-Pipeline-CLI](https://github.com/samapriya/Planet-GEE-Pipeline-CLI) the aoijson tool allows the user to bring any filetype of interest, which includes GEOJSON, WKT, KML or SHP file including but not limited to WRS rowpath setup and structures it to enable filtered query using Planet's data API. A simple setup would be 
-```pclip aoijson --start "2017-06-01" --end "2017-12-31" --cloud "0.15" --inputfile "GJSON" --geo "C:\planet\myarea.geojson" --loc "C:\planet"``` the output is always named as aoi.json.
+As with the [Planet-GEE-Pipeline-CLI](https://github.com/samapriya/Planet-GEE-Pipeline-CLI) the aoijson tool allows the user to bring any filetype of interest, which includes GEOJSON, WKT, KML or SHP file including but not limited to WRS rowpath setup and structures it to enable filtered query using Planet's data API. A simple setup would be
+
+```pclip aoijson --start "2017-06-01" --end "2017-12-31" --cloud "0.15" --inputfile "GJSON" --geo "C:\planet\myarea.geojson" --loc "C:\planet"```
+
+the output is always named as aoi.json.
 
 ### Activate or Check Asset
 The activate tool allows the users to either check or activate planet assets. This tool makes use of an existing json file sturctured for use within Planet API or the aoi.json file created earlier. This is a necessary step since the clip API can only work with those ID(s) which have been activated. In the future the list ID tool will check for number of activated id and wait for all of them to be activated before generating an ID list.
@@ -124,6 +127,7 @@ optional arguments:
                    analytic/REOrthoTile visual
 ```
 An example setup for asset activation is the following
+
 ```pclip activate --aoi "C:\planet\aoi.json" --action "activate" --asst "PSOrthoTile analytic"```
 
 ### List IDs
@@ -139,6 +143,7 @@ optional arguments:
                  analytic"|"REOrthoTile analytic"
 ```
 The example setup for this command is the following
+
 ```pclip idlist --aoi “C:\planet\aoi.json” --asset “PSOrthoTile analytic”```
 
 
@@ -156,6 +161,7 @@ optional arguments:
   --asset ASSET  Choose from asset type for example: "visual","analytic"
   ```
  A simple setup for the JSON tool is the following
+ 
 ```pclip geojsonc --path “C:\planet\aoi.geojson” --item “PSOrthoTile” --asset “analytic"```
 
 ### Clipping with JSON
@@ -171,6 +177,7 @@ optional arguments:
   --asset ASSET  Choose from asset type for example: "visual","analytic"
   ```
 A simple setup for the JSON tool is the following
+
 ```pclip jsonc --path “C:\planet\aoi.json” --item “PSOrthoTile” --asset “analytic"```
 
 ### Downloading Clipped Imagery
@@ -186,6 +193,7 @@ optional arguments:
 ```
 
 A simple setup includes just the location to the download directory for the zipped & clipped files to be downloaded
+
 ```
 pclip downloadclips --dir “C:\planet\zipped"
 ```
@@ -205,6 +213,7 @@ optional arguments:
 ```
 
 A simple would be the following (Images and metadata are sorted into an image and metadata folder inside the unzipped files folder)
+
 ```
 pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
