@@ -6,7 +6,6 @@ from clip_idlist import idlist
 from clip_geojson import geojsonc
 from cli_aoi2json import aoijson
 from clip_json import jsonc
-from cli_aoiupdate import aoiupdate
 from clip_download import downloadclips
 from cli_sorter import sort
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -32,10 +31,6 @@ def activate_from_parser(args):
         os.system("python download.py --query "+args.aoi+" --"+args.action+" "+asset_type)
     except Exception:
         print(' ')
-def aoiupdate_from_parser(args):
-    aoiupdate(indir=args.indir,
-             days=args.days,
-             infile=args.infile)
 def idlist_from_parser(args):
     idlist(aoi=args.aoi,item_asset=args.asset)
 def geojsonc_from_parser(args):
@@ -74,12 +69,6 @@ def main(args=None):
     parser_activate.add_argument('--action', help='choose between check/activate')
     parser_activate.add_argument('--asst',help='Choose between planet asset types (PSOrthoTile analytic/PSOrthoTile analytic_dn/PSOrthoTile visual/PSScene4Band analytic/PSScene4Band analytic_dn/PSScene3Band analytic/PSScene3Band analytic_dn/PSScene3Band visual/REOrthoTile analytic/REOrthoTile visual')
     parser_activate.set_defaults(func=activate_from_parser)
-
-    parser_aoiupdate = subparsers.add_parser('aoiupdate', help='Allows users to batch update assets using a directory with json or list of json(Sends updates on Slack if slack key added)')
-    parser_aoiupdate.add_argument('--indir', help='Choose folder with aoi.json files',default=None)
-    parser_aoiupdate.add_argument('--days', help='Choose the number of days before today as new start date for aoi',default=None)
-    parser_aoiupdate.add_argument('--infile', help='File list with headers pathways:path to json file',default=None)
-    parser_aoiupdate.set_defaults(func=aoiupdate_from_parser)
 
     parser_idlist = subparsers.add_parser('idlist', help='Allows users to generate an id list for the selected item and asset type for example item_asset= PSOrthoTile analytic/PSScene3Band visual. This is used with the clip tool')
     parser_idlist.add_argument('--aoi', help='Input path to the structured json file from which we will generate the clips',default=None)
