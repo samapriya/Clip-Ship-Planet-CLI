@@ -1,28 +1,9 @@
 # Clip Ship Planet CLI addon
 
 ## Installation
-We assume Earth Engine Python API is installed and EE authorised as desribed [here](https://developers.google.com/earth-engine/python_install). We also assume Planet Python API is installed you can install by simply running.
-```
-pip install planet
-```
-Further instructions can be found [here](https://www.planet.com/docs/api-quickstart-examples/cli/) 
 
-**This toolbox also uses some functionality from GDAL**
-For installing GDAL in Ubuntu
 ```
-sudo add-apt-repository ppa:ubuntugis/ppa && sudo apt-get update
-sudo apt-get install gdal-bin
-```
-For Windows I found this [guide](https://sandbox.idre.ucla.edu/sandbox/tutorials/installing-gdal-for-windows) from UCLA
-
-To install **Planet-GEE-Pipeline-CLI:**
-```
-git clone https://github.com/samapriya/Planet-GEE-Pipeline-CLI.git
-cd Planet-GEE-Pipeline-CLI && pip install .
-```
-This release also contains a windows installer which bypasses the need for you to have admin permission, it does however require you to have python in the system path meaning when you open up command prompt you should be able to type python and start it within the command prompt window. Post installation using the installer you can just call ppipe using the command prompt similar to calling python. Give it a go post installation type
-```
-ppipe -h
+pclip -h
 ```
 Installation is an optional step; the application can be also run directly by executing ppipe.py script. The advantage of having it installed is being able to execute ppipe as any command line tool. I recommend installation within virtual environment. To install run
 ```
@@ -78,14 +59,10 @@ optional arguments:
   -h, --help            show this help message and exit
 ```
 
-To obtain help for a specific functionality, simply call it with _help_
-switch, e.g.: `ppipe upload -h`. If you didn't install ppipe, then you
-can run it just by going to _ppipe_ directory and running `python
-ppipe.py [arguments go here]`
 
 
 ## Usage examples
-Usage examples have been segmented into two parts focusing on both planet tools as well as earth engine tools, earth engine tools include additional developments in CLI which allows you to recursively interact with their python API
+The tools have been designed to follow a sequential setup from activation, clip, download and even sort and includes steps that help resolve additional issues a user might face trying to download clipped area of interests instead of entire scenes.
 
 ## Planet Tools
 The Planet Toolsets consists of tools required to access control and download planet labs assets (PlanetScope and RapidEye OrthoTiles) as well as parse metadata in a tabular form which maybe required by other applications.
@@ -93,7 +70,7 @@ The Planet Toolsets consists of tools required to access control and download pl
 ### Planet Key
 This tool basically asks you to input your Planet API Key using a password prompt this is then used for all subsequent tools
 ```
-usage: ppipe.py planetkey [-h]
+usage: pclip planetkey [-h]
 
 optional arguments:
   -h, --help  show this help message and exit
@@ -104,7 +81,7 @@ If using on a private machine the Key is saved as a csv file for all future runs
 ### AOI JSON
 The aoijson tab within the toolset allows you to create filters and structure your existing input file to that which can be used with Planet's API. The tool requires inputs with start and end date, along with cloud cover. You can choose from multiple input files types such as KML, Zipped Shapefile, GeoJSON, WKT or even Landsat Tiles based on PathRow numbers. The geo option asks you to select existing files which will be converted into formatted JSON file called aoi.json. If using WRS as an option just type in the 6 digit PathRow combination and it will create a json file for you.
 ```
-usage: ppipe.py aoijson [-h] [--start START] [--end END] [--cloud CLOUD]
+usage: pclip aoijson [-h] [--start START] [--end END] [--cloud CLOUD]
                      [--inputfile INPUTFILE] [--geo GEO] [--loc LOC]
 
 optional arguments:
@@ -121,16 +98,101 @@ optional arguments:
 ```
 
 ### Activate or Check Asset
-The activatepl tab allows the users to either check or activate planet assets, in this case only PSOrthoTile and REOrthoTile are supported because I was only interested in these two asset types for my work but can be easily extended to other asset types. This tool makes use of an existing json file sturctured for use within Planet API or the aoi.json file created earlier
+The activatep tool allows the users to either check or activate planet assets. This tool makes use of an existing json file sturctured for use within Planet API or the aoi.json file created earlier
 ```
-usage: ppipe.py activatepl [-h] [--aoi AOI] [--action ACTION] [--asst ASST]
+usage: pclip activate [-h] [--aoi AOI] [--action ACTION] [--asst ASST]
 
 optional arguments:
   -h, --help       show this help message and exit
   --aoi AOI        Choose aoi.json file created earlier
   --action ACTION  choose between check/activate
   --asst ASST      Choose between planet asset types (PSOrthoTile
-                   analytic/REOrthoTile analytic/PSOrthoTile
-                   analytic_xml/REOrthoTile analytic_xml
+                   analytic/PSOrthoTile analytic_dn/PSOrthoTile
+                   visual/PSScene4Band analytic/PSScene4Band
+                   analytic_dn/PSScene3Band analytic/PSScene3Band
+                   analytic_dn/PSScene3Band visual/REOrthoTile
+                   analytic/REOrthoTile visual
+```
 
+### List IDs
+The next step is to list ID(s) that you have activated, this creates a temporary file containing the list of ID(s) which can be used to iteratively call the clips API. This is a modification of the activation function to use only the item id instead of item type and asset id and write to file for future use.
+```
+usage: pclip idlist [-h] [--aoi AOI] [--asset ASSET]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --aoi AOI      Input path to the structured json file from which we will
+                 generate the clips
+  --asset ASSET  Choose from asset type for example:"PSOrthoTile
+                 analytic"|"REOrthoTile analytic"
+```
+The example setup for this command is the following
+```pclip idlist --aoi “C:\planet\aoi.json” --asset “PSOrthoTile analytic”```
+
+
+### Clipping with GeoJSON
+A geejson file can be used directly to clip and query the area of interest and then submit clip process. I added this is a functionality but want to make clear that this does not take into consideration any other filters such as cloud cover or start and end date, and hence should be used only when you do not need to apply any filter.
+
+```
+usage: pclip geojsonc [-h] [--path PATH] [--item ITEM] [--asset ASSET]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --path PATH    Path to the geojson file including filename (Example:
+                 C:\users ile.geojson)
+  --item ITEM    Choose from item type for example:"PSOrthoTile","REOrthoTile"
+  --asset ASSET  Choose from asset type for example: "visual","analytic"
+  ```
+ A simple setup for the JSON tool is the following
+```pclip geojsonc --path “C:\planet\aoi.geojson” --item “PSOrthoTile” --asset “analytic"```
+
+### Clipping with JSON
+This is the preferred style of submitting the clip requests using the IDlist we generated earlier. This is already structured before even activating assets and includes the additional filters you might have used for selecting the images.
+```
+usage: pclip jsonc [-h] [--path PATH] [--item ITEM] [--asset ASSET]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --path PATH    Path to the json file including filename (Example: C:\users
+                 ile.json)
+  --item ITEM    Choose from item type for example:"PSOrthoTile","REOrthoTile"
+  --asset ASSET  Choose from asset type for example: "visual","analytic"
+  ```
+A simple setup for the JSON tool is the following
+```pclip jsonc --path “C:\planet\aoi.json” --item “PSOrthoTile” --asset “analytic"```
+
+### Downloading Clipped Imagery
+The last step includes providing a location where the clipped imagery can be downloaded. This includes the zip files that are generated from the earlier step and include a download token that expires over time. This batch downloads the clipped zip files to destination directory
+
+```
+usage: pclip downloadclips [-h] [--dir DIR]
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --dir DIR   Output directory to save the assets. All files are zipped and
+              include metadata
+```
+
+A simple setup includes just the location to the download directory for the zipped & clipped files to be downloaded
+```
+pclip downloadclips --dir “C:\planet\zipped"
+```
+
+### Sorting
+As an additional measure and because it makes arranging and handling datasets easily, this setup comes completed with a sort tool. If a output directory is provided for the unzipped files, the tool unzips all files, moves the images and metadata to seperate directories and then deletes the original zipped files to save space. 
+
+```
+usage: pclip sort [-h] [--zipped ZIPPED] [--unzipped UNZIPPED]
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --zipped ZIPPED      Folder containing downloaded clipped files which are
+                       zipped
+  --unzipped UNZIPPED  Folder where you want your files to be unzipped and
+                       sorted
+```
+
+A simple would be the following (Images and metadata are sorted into an image and metadata folder inside the unzipped files folder)
+```
+pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
