@@ -1,27 +1,29 @@
 # Clip Ship Planet CLI addon
+Planet's Clip API was a compute API designed to allowed users to clip the images to their area of interest. This would save them time in preprocessing and also allow the user to save on their area quota which might have restrictions. Based on Planet's Education and Research Program this quota is set at 10,000 square kilometers a month, which means saving up on quota is very useful. The discussion also led to an important clarification that users are in fact charged only for the area downloaded post clip if using the clip operation and hence this tool. This tool takes a sequential approach from activation to generating a clip request for multiple images activated and then processing the download tokens to actually download the clipped image files. The tool also consists of a sort function which allows the user to extract the files and sort them by type and deleting the original files to save on space.
 
 ## Installation
+To install the Clip-Ship-Planet-CLI you can simple perform the following action with Linux(Tested on Ubuntu):
+```
+git clone https://github.com/samapriya/Clip-Ship-Planet-CLI.git
+cd Clip-Ship-Planet-CLI && pip install
+```
 
-```
-pclip -h
-```
-Installation is an optional step; the application can be also run directly by executing ppipe.py script. The advantage of having it installed is being able to execute ppipe as any command line tool. I recommend installation within virtual environment. To install run
-```
+On a windows as well as a linux machine, installation is an optional step; the application can also be run directly by executing pclip.py script. The advantage of having it installed is being able to execute ppipe as any command line tool. I recommend installation within virtual environment but you can also install it to system python and should not create any conflicts. To install on windows download the setup files as a zip package, unpack and run
+
 python setup.py develop or python setup.py install
 
 In a linux distribution
 sudo python setup.py develop or sudo python setup.py install
+
 ```
+pclip -h
+```
+![pclip-cli](https://i.imgur.com/bqds1Cm.jpg)
 
 ## Getting started
 
 As usual, to print help:
 ```
-usage: pclip.py [-h]
-                {
-                ,planetkey,aoijson,activate,aoiupdate,idlist,geojsonc,jsonc,downloadclips,sort}
-                ...
-
 Planet Clip Tools CLI
 
 positional arguments:
@@ -34,9 +36,6 @@ positional arguments:
                         WRS PathRow file to AreaOfInterest.JSON file with
                         structured query for use with Planet API 1.0
     activate            Tool to query and/or activate Planet Assets
-    aoiupdate           Allows users to batch update assets using a directory
-                        with json or list of json(Sends updates on Slack if
-                        slack key added)
     idlist              Allows users to generate an id list for the selected
                         item and asset type for example item_asset=
                         PSOrthoTile analytic/PSScene3Band visual. This is used
@@ -64,9 +63,6 @@ optional arguments:
 ## Usage examples
 The tools have been designed to follow a sequential setup from activation, clip, download and even sort and includes steps that help resolve additional issues a user might face trying to download clipped area of interests instead of entire scenes.
 
-## Planet Tools
-The Planet Toolsets consists of tools required to access control and download planet labs assets (PlanetScope and RapidEye OrthoTiles) as well as parse metadata in a tabular form which maybe required by other applications.
-
 ### Planet Key
 This tool basically asks you to input your Planet API Key using a password prompt this is then used for all subsequent tools
 ```
@@ -75,7 +71,6 @@ usage: pclip planetkey [-h]
 optional arguments:
   -h, --help  show this help message and exit
 ```
-
 If using on a private machine the Key is saved as a csv file for all future runs of the tool.
  
 ### AOI JSON
@@ -96,9 +91,12 @@ optional arguments:
   --geo GEO             map.geojson/aoi.kml/aoi.shp/aoi.wkt file
   --loc LOC             Location where aoi.json file is to be stored
 ```
+As with the [Planet-GEE-Pipeline-CLI](https://github.com/samapriya/Planet-GEE-Pipeline-CLI) the aoijson tool allows the user to bring any filetype of interest, which includes GEOJSON, WKT, KML or SHP file including but not limited to WRS rowpath setup and structures it to enable filtered query using Planet's data API. A simple setup would be 
+```pclip aoijson --start "2017-06-01" --end "2017-12-31" --cloud "0.15" --inputfile "GJSON" --geo "C:\planet\myarea.geojson" --loc "C:\planet"``` the output is always named as aoi.json.
 
 ### Activate or Check Asset
-The activatep tool allows the users to either check or activate planet assets. This tool makes use of an existing json file sturctured for use within Planet API or the aoi.json file created earlier
+The activate tool allows the users to either check or activate planet assets. This tool makes use of an existing json file sturctured for use within Planet API or the aoi.json file created earlier. This is a necessary step since the clip API can only work with those ID(s) which have been activated. In the future the list ID tool will check for number of activated id and wait for all of them to be activated before generating an ID list.
+
 ```
 usage: pclip activate [-h] [--aoi AOI] [--action ACTION] [--asst ASST]
 
@@ -113,6 +111,8 @@ optional arguments:
                    analytic_dn/PSScene3Band visual/REOrthoTile
                    analytic/REOrthoTile visual
 ```
+An example setup for asset activation is the following
+```pclip activate --aoi "C:\planet\aoi.json" --action "activate" --asst "PSOrthoTile analytic"```
 
 ### List IDs
 The next step is to list ID(s) that you have activated, this creates a temporary file containing the list of ID(s) which can be used to iteratively call the clips API. This is a modification of the activation function to use only the item id instead of item type and asset id and write to file for future use.
