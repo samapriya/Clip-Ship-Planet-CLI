@@ -20,6 +20,18 @@ pclip -h
 ```
 ![pclip-cli](https://i.imgur.com/bqds1Cm.jpg)
 
+## Table of contents
+* [Getting started](#getting-started)
+* [Usage examples](#usage-examples)
+	 * [Planet Key](#planet-key)
+   * [AOI JSON](#aoi-json)
+   * [Activate or Check Asset](#activate-or-check-asset)
+	* [List IDs](#list-ids)
+   * [Clipping with GeoJSON](#clipping-with-geojson)
+   * [Clipping with JSON](#clipping-with-json)
+   * [Downloading Clipped Imagery](#downloading-clipped-imagery)
+	* [Sorting](#sorting)
+
 ## Getting started
 
 As usual, to print help:
