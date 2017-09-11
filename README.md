@@ -220,3 +220,6 @@ A simple would be the following (Images and metadata are sorted into an image an
 ```
 pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
+
+## Changelog
+- The Clip function now handles error codes if the post response code is not 202(accepted for processing) then the error code and item and asste type is printed.
