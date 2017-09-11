@@ -76,7 +76,7 @@ optional arguments:
 
 
 ## Usage examples
-The tools have been designed to follow a sequential setup from activation, clip, download and even sort and includes steps that help resolve additional issues a user might face trying to download clipped area of interests instead of entire scenes.
+The tools have been designed to follow a sequential setup from activation, clip, download and even sort and includes steps that help resolve additional issues a user might face trying to download clipped area of interests instead of entire scenes. The system will ask you to enter your API key before the CLI starts(this will prompt you only once to change API key use the Planet Key tool).
 
 ### Planet Key
 This tool basically asks you to input your Planet API Key using a password prompt this is then used for all subsequent tools
@@ -223,3 +223,4 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 
 ## Changelog
 - The Clip function now handles error codes if the post response code is not 202(accepted for processing) then the error code and item and asste type is printed.
+- Handles single time input API Key, this is needed only once to start the program
