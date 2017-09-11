@@ -8,6 +8,17 @@ from cli_aoi2json import aoijson
 from clip_json import jsonc
 from clip_download import downloadclips
 from cli_sorter import sort
+planethome=expanduser("~/.config/planet/")
+if not os.path.exists(planethome):
+    os.mkdir(planethome)
+    pkey=expanduser("~/.config/planet/pkey.csv")
+    if not os.path.exists(pkey):
+        print("Enter your Planet API Key")
+        password=getpass.getpass()
+        os.chdir(planethome)
+        with open("pkey.csv",'w') as completed:
+            writer=csv.writer(completed,delimiter=',',lineterminator='\n')
+            writer.writerow([password])
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 def planet_key_entry():
     planethome=expanduser("~/.config/planet/")
