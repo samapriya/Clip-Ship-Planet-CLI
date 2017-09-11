@@ -24,6 +24,7 @@ SEARCH_URL = 'https://api.planet.com/data/v1/quick-search'
 planethome=expanduser("~/.config/planet/")
 pkey=expanduser("~/.config/planet/pkey.csv")
 if not os.path.exists(pkey):
+    print("Enter your Planet API Key")
     password=getpass.getpass()
     os.chdir(planethome)
     with open("pkey.csv",'w') as completed:
