@@ -3,7 +3,7 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 def sort(zipped,unzipped):
     if not os.path.exists(os.path.join(unzipped,"images")):
         os.mkdir(os.path.join(unzipped,"images"))
-    if not os.path.exists(os.path.join(unzipped,"images")):
+    if not os.path.exists(os.path.join(unzipped,"metadata")):
         os.mkdir(os.path.join(unzipped,"metadata"))
     ziplist=os.listdir(zipped)
     for zipfiles in ziplist:
