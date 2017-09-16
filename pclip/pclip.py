@@ -37,7 +37,7 @@ def aoijson_from_parser(args):
 def activate_from_parser(args):
     aoi_json=str(args.aoi)
     action_planet=str(args.action)
-    asset_type=str(args.asst)
+    asset_type=str(args.asset)
     try:
         os.system("python download.py --query "+args.aoi+" --"+args.action+" "+asset_type)
     except Exception:
@@ -78,7 +78,7 @@ def main(args=None):
     parser_activate=subparsers.add_parser('activate',help='Tool to query and/or activate Planet Assets')
     parser_activate.add_argument('--aoi', help='Choose aoi.json file created earlier')
     parser_activate.add_argument('--action', help='choose between check/activate')
-    parser_activate.add_argument('--asst',help='Choose between planet asset types (PSOrthoTile analytic/PSOrthoTile analytic_dn/PSOrthoTile visual/PSScene4Band analytic/PSScene4Band analytic_dn/PSScene3Band analytic/PSScene3Band analytic_dn/PSScene3Band visual/REOrthoTile analytic/REOrthoTile visual')
+    parser_activate.add_argument('--asset',help='Choose between planet asset types (PSOrthoTile analytic/PSOrthoTile analytic_dn/PSOrthoTile visual/PSScene4Band analytic/PSScene4Band analytic_dn/PSScene3Band analytic/PSScene3Band analytic_dn/PSScene3Band visual/REOrthoTile analytic/REOrthoTile visual')
     parser_activate.set_defaults(func=activate_from_parser)
 
     parser_idlist = subparsers.add_parser('idlist', help='Allows users to generate an id list for the selected item and asset type for example item_asset= PSOrthoTile analytic/PSScene3Band visual. This is used with the clip tool')
