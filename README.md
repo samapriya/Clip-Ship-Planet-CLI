@@ -226,3 +226,5 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 - Handles single time input API Key, this is needed only once to start the program
 - Fixed issue with base metadata folder during sort
 - Updated asset argument for asset activation to match styles
+- Updated Requirements.txt to include pyshp
+- Fixed subprocess shell error, for now shell=True
