@@ -24,4 +24,4 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 CAS_URL='https://api.planet.com/compute/ops/clips/v1/'
 headers = {'Content-Type': 'application/json',}
 def idlist(aoi=None,item_asset=None):
-    subprocess.call('python download.py --query '+aoi+' --checklist '+item_asset)
+    subprocess.call('python download.py --query '+aoi+' --checklist '+item_asset,shell=True)
