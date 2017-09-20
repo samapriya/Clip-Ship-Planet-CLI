@@ -2,8 +2,9 @@ import requests,json,re,csv,os,subprocess,urllib2,getpass
 from pprint import pprint
 from os.path import expanduser
 from urllib2 import Request, urlopen
-
+from os.path import expanduser
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
+planethome=expanduser("~/.config/planet/")
 pkey=expanduser("~/.config/planet/pkey.csv")
 f=open(pkey)
 for row in csv.reader(f):
@@ -13,7 +14,7 @@ for row in csv.reader(f):
 CAS_URL='https://api.planet.com/compute/ops/clips/v1/'
 headers = {'Content-Type': 'application/json',}
 def geojsonc(path=None,item=None,asset=None):
-    with open(path) as f, open('idl.csv','r') as f2,open("urllist.csv",'wb') as csvfile:
+    with open(path) as f, open(os.path.join(planethome,"idl.csv"),'r') as f2,open(os.path.join(planethome,"urllist.csv"),'wb') as csvfile:
         geomloader = json.load(f)
         geom=geomloader['features'][0]['geometry']
         reader = csv.DictReader(f2)
@@ -31,7 +32,7 @@ def geojsonc(path=None,item=None,asset=None):
                 item_typ=(content['targets'][0]['item_type'])
                 asset_typ=(content['targets'][0]['asset_type'])
                 print("Clipping: "+(item_id+"_"+item_typ+"_"+asset_typ))
-                with open("urllist.csv",'a') as csvfile:
+                with open(os.path.join(planethome,"urllist.csv"),'a') as csvfile:
                     writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
                     writer.writerow([URL])
             else:

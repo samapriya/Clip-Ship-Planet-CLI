@@ -20,7 +20,6 @@ for row in csv.reader(f):
     #print(str(row).strip("[']"))
     PL_API_KEY=str(row).strip("[']")
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
 CAS_URL='https://api.planet.com/compute/ops/clips/v1/'
 headers = {'Content-Type': 'application/json',}
 def idlist(aoi=None,item_asset=None):

@@ -4,6 +4,7 @@ from os.path import expanduser
 from urllib2 import Request, urlopen
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
+planethome=expanduser("~/.config/planet/")
 pkey=expanduser("~/.config/planet/pkey.csv")
 f=open(pkey)
 for row in csv.reader(f):
@@ -14,7 +15,7 @@ CAS_URL='https://api.planet.com/compute/ops/clips/v1/'
 headers = {'Content-Type': 'application/json',}
 
 def downloadclips(filepath=None):
-    with open("urllist.csv") as f:
+    with open(os.path.join(planethome,"urllist.csv")) as f:
         csv_f = csv.reader(f)
         for row in csv_f:
             URL=str(row).replace("'","").replace("[","").replace("]","")
@@ -35,6 +36,6 @@ def downloadclips(filepath=None):
                     else:
                         print("asset exists..Skipping "+str(filename))
                 else:
-                    print(content['state'])
+                    print("Clip Function still " +content['state']+" "+str(filename))
             except:
                 print("All successful links have been clipped and downloaded")

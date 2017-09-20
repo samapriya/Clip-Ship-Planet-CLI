@@ -373,7 +373,7 @@ def process_size(path, id_list, item_type, asset_type, overwrite):
 def process_checklist(id_list, item_type, asset_type):
     results = []
     summation=0
-    with open("idl.csv",'wb') as csvfile:
+    with open(os.path.join(planethome,"idl.csv"),'wb') as csvfile:
             writer=csv.DictWriter(csvfile,fieldnames=["id_no"], delimiter=',')
             writer.writeheader()
     # now start downloading each file
@@ -385,7 +385,7 @@ def process_checklist(id_list, item_type, asset_type):
         try:
             if result.json()[asset_type]['status'] == 'active':
                 print(str(item_id))
-                with open("idl.csv",'a') as csvfile:
+                with open(os.path.join(planethome,"idl.csv"),'a') as csvfile:
                     writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
                     writer.writerow([item_id])     
             else:
