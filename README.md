@@ -122,7 +122,7 @@ optional arguments:
   -h, --help       show this help message and exit
   --aoi AOI        Choose aoi.json file created earlier
   --action ACTION  choose between check/activate
-  --asst ASST      Choose between planet asset types (PSOrthoTile
+  --asset ASST      Choose between planet asset types (PSOrthoTile
                    analytic/PSOrthoTile analytic_dn/PSOrthoTile
                    visual/PSScene4Band analytic/PSScene4Band
                    analytic_dn/PSScene3Band analytic/PSScene3Band
@@ -131,7 +131,7 @@ optional arguments:
 ```
 An example setup for asset activation is the following
 
-```pclip activate --aoi "C:\planet\aoi.json" --action "activate" --asst "PSOrthoTile analytic"```
+```pclip activate --aoi "C:\planet\aoi.json" --action "activate" --asset "PSOrthoTile analytic"```
 
 ### List IDs
 The next step is to list ID(s) that you have activated, this creates a temporary file containing the list of ID(s) which can be used to iteratively call the clips API. This is a modification of the activation function to use only the item id instead of item type and asset id and write to file for future use.
@@ -228,3 +228,5 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 - Updated asset argument for asset activation to match styles
 - Updated Requirements.txt to include pyshp
 - Fixed subprocess shell error, for now shell=True
+- Tested on Ubuntu 16.04 and now handles permissions problem
+- Temporary files now written to config folders to avoid admin permission
