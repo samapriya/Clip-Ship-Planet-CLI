@@ -22,7 +22,7 @@ def jsonc(path=None,item=None,asset=None):
         for i, line in enumerate(reader):
             item_id = line['id_no']
             data = r'{"aoi": '+str(geom)+r',"targets": [{"item_id": '+'"'+item_id+'"'+r',"item_type": '+'"'+item+'"'+r',"asset_type": '+'"'+asset+'"'+r'}]}'
-            data2=str(data).replace("'",'"').replace("u","")
+            data2=str(data).replace("'",'"').replace('u"','"')
             main=requests.post('https://api.planet.com/compute/ops/clips/v1/', headers=headers, data=data2, auth=(PL_API_KEY, ''))
             if main.status_code==202:
                 URL=str(main.json()).split('_self')[1].split(',')[0].replace("': u","").replace(" ","").replace("'","")

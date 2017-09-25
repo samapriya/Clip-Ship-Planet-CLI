@@ -23,9 +23,20 @@ def geojsonc(path=None,item=None,asset=None):
         for i, line in enumerate(reader):
             item_id = line['id_no']
             data = r'{"aoi": '+str(geom)+r',"targets": [{"item_id": '+'"'+item_id+'"'+r',"item_type": '+'"'+item+'"'+r',"asset_type": '+'"'+asset+'"'+r'}]}'
-            data2=str(data).replace("'",'"').replace("u","")
+            data2=str(data).replace("'",'"').replace('u"','"')
             main=requests.post('https://api.planet.com/compute/ops/clips/v1/', headers=headers, data=data2, auth=(PL_API_KEY, ''))
             if main.status_code==202:
+                URL=str(main.json()).split('_self')[1].split(',')[0].replace("': u","").replace(" ","").replace("'","")
+                content=main.json()
+                item_id=(content['targets'][0]['item_id'])
+                item_typ=(content['targets'][0]['item_type'])
+                asset_typ=(content['targets'][0]['asset_type'])
+                print("Clipping: "+(item_id+"_"+item_typ+"_"+asset_typ))
+                with open(os.path.join(planethome,"urllist.csv"),'a') as csvfile:
+                    writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
+                    writer.writerow([URL])
+            elif main.status_code==429:
+                time.sleep(2)
                 URL=str(main.json()).split('_self')[1].split(',')[0].replace("': u","").replace(" ","").replace("'","")
                 content=main.json()
                 item_id=(content['targets'][0]['item_id'])
