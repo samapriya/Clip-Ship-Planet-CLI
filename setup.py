@@ -6,7 +6,7 @@ def readme():
 
 setup(
     name='pclip',
-    version='0.1.6',
+    version='0.1.7',
     packages=find_packages(),
     url='https://github.com/samapriya/Clip-Ship-Planet-CLI',
     license='Apache 2.0',
