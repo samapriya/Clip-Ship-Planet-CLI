@@ -222,6 +222,8 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
 
 ## Changelog
+- Includes required packages list within installer
+- Robust GEOJSON Parsing 
 - Fixed issues with processing visual asset types
 - The Clip function now handles error codes if the post response code is not 202(accepted for processing) then the error code and item and asset type is printed.
 - Handles single time input API Key, this is needed only once to start the program

@@ -33,14 +33,19 @@ def aoijson(start,end,cloud,inputfile,geo,loc):
                         outfile.write(filenames)
                         outfile.close()
     elif inputfile == 'GJSON':
-        raw= open(geo)
-        for line in raw:
-            fields=line.strip().split(":")[7]
-            f2=fields.strip().split("}")[0]
-            filenames = p1+f2+p2+str(start)+p3+str(end)+p4+p5+str(cloud)+p6
-            with open(loc+'./aoi.json', 'w') as outfile:
-                outfile.write(filenames)
-                outfile.close()        
+        with open(geo) as insert,open(os.path.join(dir_path,"aoi.json")) as jbase:
+            geombase=json.load(jbase)
+            geomloader = json.load(insert)
+            cinsert= geomloader['features'][0]['geometry']['coordinates']
+            cgeom=(geombase['config'][0]['config']['coordinates'])
+            geombase['config'][0]['config']['coordinates']=cinsert #coordinate insert
+            geombase['config'][2]['config']['gte']=str(start)+"T04:00:00.000Z" #change start date
+            geombase['config'][2]['config']['lte']=str(end)+"T03:59:59.999Z" #change end date
+            geombase['config'][3]['config']['gte']=0#change cloud minima default=0
+            geombase['config'][3]['config']['lte']=float(cloud)# change cloud maxima
+            with open(loc+"./aoi.json", 'w') as f:
+                f.write(json.dumps(geombase))
+            print("New structured JSON has been created at "+str(os.path.join(loc,"aoi.json")))      
     elif inputfile == 'SHP':
         reader = shapefile.Reader(geo)
         fields = reader.fields[1:]
