@@ -222,6 +222,8 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
 
 ## Changelog
+- Now handles running and succeeded status better
+- Now enumerates during clip and download to allow user estimates on number of assets clipped and/or downloaded
 - Includes required packages list within installer
 - Robust GEOJSON Parsing 
 - Fixed issues with processing visual asset types
