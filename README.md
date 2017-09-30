@@ -222,16 +222,36 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
 
 ## Changelog
+### v0.1.9
 - Now handles running and succeeded status better
 - Now enumerates during clip and download to allow user estimates on number of assets clipped and/or downloaded
+
+### v0.1.8
 - Includes required packages list within installer
-- Robust GEOJSON Parsing 
+- Robust GEOJSON Parsing
+
+### v0.1.7
 - Fixed issues with processing visual asset types
 - The Clip function now handles error codes if the post response code is not 202(accepted for processing) then the error code and item and asset type is printed.
+
+### v0.1.6
 - Handles single time input API Key, this is needed only once to start the program
 - Fixed issue with base metadata folder during sort
 - Updated asset argument for asset activation to match styles
+
+### v0.1.5
 - Updated Requirements.txt to include pyshp
 - Fixed subprocess shell error, for now shell=True
+
+### v0.1.4
+- General Improvements
+
+### v0.1.3
+- General Improvements
+
+### v0.1.2
 - Tested on Ubuntu 16.04 and now handles permissions problem
 - Temporary files now written to config folders to avoid admin permission
+
+### v0.1.1
+- General Improvements
