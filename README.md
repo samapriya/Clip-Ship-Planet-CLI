@@ -222,6 +222,9 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
 
 ## Changelog
+### v0.2.0
+- Fixed issues with config files
+
 ### v0.1.9
 - Now handles running and succeeded status better
 - Now enumerates during clip and download to allow user estimates on number of assets clipped and/or downloaded
