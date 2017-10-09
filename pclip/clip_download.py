@@ -13,6 +13,9 @@ for row in csv.reader(f):
 
 CAS_URL='https://api.planet.com/compute/ops/clips/v1/'
 headers = {'Content-Type': 'application/json',}
+if not os.path.exists(os.path.join(planethome,'urllist.csv')):
+        with open(os.path.join(planethome,'urllist.csv'),'w') as completed:
+            writer=csv.writer(completed,delimiter=',',lineterminator='\n')
 with open(os.path.join(planethome,"urllist.csv")) as f:
     csv_f = csv.reader(f)
     value = len(list(csv_f))
