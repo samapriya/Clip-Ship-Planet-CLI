@@ -2,6 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1005752.svg)](https://doi.org/10.5281/zenodo.1005752)
 [![Planet](https://img.shields.io/badge/SupportedBy%3A-Planet%20Ambassador%20Program-brightgreen.svg)](https://www.planet.com/products/education-and-research/)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/samapriya)
 
 Planet's Clip API was a compute API designed to allowed users to clip the images to their area of interest. This would save them time in preprocessing and also allow the user to save on their area quota which might have restrictions. Based on Planet's Education and Research Program this quota is set at 10,000 square kilometers a month, which means saving up on quota is very useful. The discussion also led to an important clarification that users are in fact charged only for the area downloaded post clip if using the clip operation and hence this tool. This tool takes a sequential approach from activation to generating a clip request for multiple images activated and then processing the download tokens to actually download the clipped image files. The tool also consists of a sort function which allows the user to extract the files and sort them by type and deleting the original files to save on space.
 
