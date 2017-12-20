@@ -6,7 +6,7 @@ def readme():
 
 setup(
     name='pclip',
-    version='0.2.0',
+    version='0.2.1',
     packages={'pclip': ['aoi.json']},
     package_data={'': ['aoi.json']},
     url='https://github.com/samapriya/Clip-Ship-Planet-CLI',
