@@ -87,13 +87,13 @@ def main(args=None):
     parser_idlist.set_defaults(func=idlist_from_parser)
 
     parser_geojsonc = subparsers.add_parser('geojsonc', help='Allows users to batch submit clipping request to the Planet Clip API using geometry in geojson file')
-    parser_geojsonc.add_argument('--path', help='Path to the geojson file including filename (Example: C:\users\file.geojson)',default=None)
+    parser_geojsonc.add_argument('--path', help='Path to the geojson file including filename',default=None)
     parser_geojsonc.add_argument('--item', help='Choose from item type for example:"PSOrthoTile","REOrthoTile"',default=None)
     parser_geojsonc.add_argument('--asset', help='Choose from asset type for example: "visual","analytic"',default=None)
     parser_geojsonc.set_defaults(func=geojsonc_from_parser)
 
     parser_jsonc = subparsers.add_parser('jsonc', help='Allows users to batch submit clipping request to the Planet Clip API using geometry in structured json file. This is preferred because the structured JSON allows the activate tool to stream line asset ids being requested and to extract geometry from the same file')
-    parser_jsonc.add_argument('--path', help='Path to the json file including filename (Example: C:\users\file.json)',default=None)
+    parser_jsonc.add_argument('--path', help='Path to the json file including filename',default=None)
     parser_jsonc.add_argument('--item', help='Choose from item type for example:"PSOrthoTile","REOrthoTile"',default=None)
     parser_jsonc.add_argument('--asset', help='Choose from asset type for example: "visual","analytic"',default=None)
     parser_jsonc.set_defaults(func=jsonc_from_parser)
