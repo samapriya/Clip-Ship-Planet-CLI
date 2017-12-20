@@ -224,6 +224,10 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
 
 ## Changelog
+### v0.2.1
+- Thanks to commit suggested by [Rabscuttler](https://github.com/Rabscuttler)
+- Fixed issues with help text and installer
+
 ### v0.2.0
 - Fixed issues with config files
 
