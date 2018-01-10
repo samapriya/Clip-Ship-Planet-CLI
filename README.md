@@ -10,17 +10,18 @@ Planet's Clip API was a compute API designed to allowed users to clip the images
 To install the Clip-Ship-Planet-CLI you can simply perform the following action with Linux(Tested on Ubuntu 16):
 ```
 git clone https://github.com/samapriya/Clip-Ship-Planet-CLI.git
-cd Clip-Ship-Planet-CLI && pip install
+cd Clip-Ship-Planet-CLI && pip install -r requirements.txt
 ```
 
 On a windows as well as a linux machine, installation is an optional step; the application can also be run directly by executing pclip.py script. The advantage of having it installed is being able to execute ppipe as any command line tool. I recommend installation within virtual environment but you can also install it to system python and should not create any conflicts. To install on windows download the setup files as a zip package, unpack and run
 
+```
 python setup.py develop or python setup.py install
+```
 
 In a linux distribution
-sudo python setup.py develop or sudo python setup.py install
-
 ```
+sudo python setup.py develop or sudo python setup.py install
 pclip -h
 ```
 ![pclip-cli](https://i.imgur.com/bqds1Cm.jpg)
