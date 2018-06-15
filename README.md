@@ -1,6 +1,6 @@
 # Clip Ship Planet CLI addon
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1005752.svg)](https://doi.org/10.5281/zenodo.1005752)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1290193.svg)](https://doi.org/10.5281/zenodo.1290193)
 [![Planet](https://img.shields.io/badge/SupportedBy%3A-Planet%20Ambassador%20Program-brightgreen.svg)](https://www.planet.com/products/education-and-research/)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/samapriya)
 
