@@ -26,7 +26,7 @@ In a linux distribution
 sudo python setup.py develop or sudo python setup.py install
 pclip -h
 ```
-![pclip-cli](https://i.imgur.com/bqds1Cm.jpg)
+![pclip-cli](https://i.imgur.com/miR1DGN.jpg)
 
 ## Table of contents
 * [Getting started](#getting-started)
