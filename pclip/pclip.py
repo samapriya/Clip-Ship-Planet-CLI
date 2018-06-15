@@ -8,30 +8,21 @@ from cli_aoi2json import aoijson
 from clip_json import jsonc
 from clip_download import downloadclips
 from cli_sorter import sort
-planethome=expanduser("~/.config/planet/")
-if not os.path.exists(planethome):
-    os.mkdir(planethome)
-    pkey=expanduser("~/.config/planet/pkey.csv")
-    if not os.path.exists(pkey):
-        print("Enter your Planet API Key")
-        password=getpass.getpass()
-        os.chdir(planethome)
-        with open("pkey.csv",'w') as completed:
-            writer=csv.writer(completed,delimiter=',',lineterminator='\n')
-            writer.writerow([password])
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 def planet_key_entry():
-    planethome=expanduser("~/.config/planet/")
-    if not os.path.exists(planethome):
-        os.mkdir(planethome)
-    print("Enter your Planet API Key")
-    password=getpass.getpass()
-    os.chdir(planethome)
-    with open("pkey.csv",'w') as completed:
-        writer=csv.writer(completed,delimiter=',',lineterminator='\n')
-        writer.writerow([password])
+    try:
+        subprocess.call('planet init',shell=True)
+    except Exception as e:
+        print(e)
 def planet_key_from_parser(args):
     planet_key_entry()
+def planet_quota():
+    try:
+        subprocess.call('planet_quota.py',shell=True)
+    except Exception as e:
+        print(e)
+def planet_quota_from_parser(args):
+    planet_quota()
 def aoijson_from_parser(args):
     aoijson(start=args.start,end=args.end,cloud=args.cloud,inputfile=args.inputfile,geo=args.geo,loc=args.loc)
 def activate_from_parser(args):
@@ -64,8 +55,11 @@ def main(args=None):
     parser_P2 = subparsers.add_parser(' ', help='-----Choose from Planet Clip Tools-----')
     parser_pp4 = subparsers.add_parser(' ', help='-------------------------------------------')
 
-    parser_planet_key = subparsers.add_parser('planetkey', help='Enter your planet API Key')
+    parser_planet_key = subparsers.add_parser('apikey', help='Enter your planet API Key')
     parser_planet_key.set_defaults(func=planet_key_from_parser)
+
+    parser_planet_quota = subparsers.add_parser('quota', help='Prints your Planet Quota Details')
+    parser_planet_quota.set_defaults(func=planet_quota_from_parser)
 
     parser_aoijson=subparsers.add_parser('aoijson',help='Tool to convert KML, Shapefile,WKT,GeoJSON or Landsat WRS PathRow file to AreaOfInterest.JSON file with structured query for use with Planet API 1.0')
     parser_aoijson.add_argument('--start', help='Start date in YYYY-MM-DD?')

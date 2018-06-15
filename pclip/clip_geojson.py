@@ -3,13 +3,13 @@ from pprint import pprint
 from os.path import expanduser
 from urllib2 import Request, urlopen
 from os.path import expanduser
+from planet.api.utils import read_planet_json
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
-planethome=expanduser("~/.config/planet/")
-pkey=expanduser("~/.config/planet/pkey.csv")
-f=open(pkey)
-for row in csv.reader(f):
-    #print(str(row).strip("[']"))
-    PL_API_KEY=str(row).strip("[']")
+planethome=os.path.dirname(os.path.realpath(__file__))
+try:
+        PL_API_KEY = read_planet_json()['key']
+except:
+        subprocess.call('planet init',shell=True)
 
 CAS_URL='https://api.planet.com/compute/ops/clips/v1/'
 headers = {'Content-Type': 'application/json',}

@@ -6,11 +6,11 @@ def readme():
 
 setup(
     name='pclip',
-    version='0.2.1',
+    version='0.2.2',
     packages={'pclip': ['aoi.json']},
     package_data={'': ['aoi.json']},
     url='https://github.com/samapriya/Clip-Ship-Planet-CLI',
-    install_requires=['psutil>=5.2.2','urllib3>=1.22','requests>=2.18.4','retrying>=1.3.3','pyshp>=1.2.12','progressbar2>=3.34.3'],
+    install_requires=['planet>=1.1.0','psutil>=5.2.2','urllib3>=1.22','requests>=2.18.4','retrying>=1.3.3','pyshp>=1.2.12','progressbar2>=3.34.3'],
     license='Apache 2.0',
     classifiers=(
         'Development Status :: 3 - Alpha',
