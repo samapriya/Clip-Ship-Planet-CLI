@@ -32,6 +32,7 @@ pclip -h
 * [Getting started](#getting-started)
 * [Usage examples](#usage-examples)
 	 * [Planet Key](#planet-key)
+   * [Planet Quota](#planet_quota)
    * [AOI JSON](#aoi-json)
    * [Activate or Check Asset](#activate-or-check-asset)
 	* [List IDs](#list-ids)
@@ -52,6 +53,7 @@ positional arguments:
                         -----Choose from Planet Clip Tools-----
                         -------------------------------------------
     planetkey           Enter your planet API Key
+    quota               Prints your quota details
     aoijson             Tool to convert KML, Shapefile,WKT,GeoJSON or Landsat
                         WRS PathRow file to AreaOfInterest.JSON file with
                         structured query for use with Planet API 1.0
@@ -84,15 +86,26 @@ optional arguments:
 The tools have been designed to follow a sequential setup from activation, clip, download and even sort and includes steps that help resolve additional issues a user might face trying to download clipped area of interests instead of entire scenes. The system will ask you to enter your API key before the CLI starts(this will prompt you only once to change API key use the Planet Key tool).
 
 ### Planet Key
-This tool basically asks you to input your Planet API Key using a password prompt this is then used for all subsequent tools
+This tool basically asks you to input your Planet API Key using a password prompt this is then used for all subsequent tools. Ites makes use of the Planet client and esentially executes ```planet init```
+
 ```
 usage: pclip planetkey [-h]
 
 optional arguments:
   -h, --help  show this help message and exit
 ```
-If using on a private machine the Key is saved as a csv file for all future runs of the tool.
- 
+
+
+### Planet Quota
+This tool prints details on your existing quota and your area remaining
+```
+usage: pclip quota
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+
 ### AOI JSON
 The aoijson tab within the toolset allows you to create filters and structure your existing input file to that which can be used with Planet's API. The tool requires inputs with start and end date, along with cloud cover. You can choose from multiple input files types such as KML, Zipped Shapefile, GeoJSON, WKT or even Landsat Tiles based on PathRow numbers. The geo option asks you to select existing files which will be converted into formatted JSON file called aoi.json. If using WRS as an option just type in the 6 digit PathRow combination and it will create a json file for you.
 ```
@@ -227,6 +240,11 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 ```
 
 ## Changelog
+
+### v0.2.2
+- Improved Planet Key Handler
+- Added new tool to insepect planet account quota
+
 ### v0.2.1
 - Thanks to commit suggested by [Rabscuttler](https://github.com/Rabscuttler)
 - Fixed issues with help text and installer
