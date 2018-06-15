@@ -32,7 +32,7 @@ pclip -h
 * [Getting started](#getting-started)
 * [Usage examples](#usage-examples)
 	 * [Planet Key](#planet-key)
-   * [Planet Quota](#planet_quota)
+   * [Planet Quota](#planet-quota)
    * [AOI JSON](#aoi-json)
    * [Activate or Check Asset](#activate-or-check-asset)
 	* [List IDs](#list-ids)
