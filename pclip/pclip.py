@@ -18,7 +18,7 @@ def planet_key_from_parser(args):
     planet_key_entry()
 def planet_quota():
     try:
-        subprocess.call('planet_quota.py',shell=True)
+        subprocess.call('python planet_quota.py',shell=True)
     except Exception as e:
         print(e)
 def planet_quota_from_parser(args):
