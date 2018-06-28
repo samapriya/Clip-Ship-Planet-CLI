@@ -31,13 +31,6 @@ def downloadclips(filepath=None):
                 try:
                     if content['state']=='running':
                             print("Clip Function still running for " +str(item_id))
-##                        while content['state']=='running':
-##                            bar = progressbar.ProgressBar()
-##                            for i in bar(range(60)):
-##                                time.sleep(1)
-##                            downlink = requests.get(url=URL, auth=(PL_API_KEY, ''))
-##                            if downlink.status_code==200:
-##                                content=downlink.json()
                     elif content['state']=='succeeded':
                         filelink = urllib2.urlopen(str(content['_links']['results'][0]))
                         filename=item_id+"_"+item_typ+"_"+asset_typ+".zip"
