@@ -1,13 +1,16 @@
 import requests,json,re,csv,os,subprocess,urllib2,argparse,getpass
 from pprint import pprint
 from os.path import expanduser
-from urllib2 import Request, urlopen
 from clip_idlist import idlist
 from clip_geojson import geojsonc
 from cli_aoi2json import aoijson
 from clip_json import jsonc
 from clip_download import downloadclips
 from cli_sorter import sort
+if sys.version_info > (3, 0):
+    from urllib.request import urlopen, Request
+else:
+    from urllib2 import Request, urlopen
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 def planet_key_entry():
     try:
