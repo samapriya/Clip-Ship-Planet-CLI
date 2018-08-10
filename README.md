@@ -241,6 +241,8 @@ pclip sort --zipped “C:\planet\zipped” --unzipped “C:\planet\unzipped”
 
 ## Changelog
 
+### v0.2.6
+- Handles issues with urllib compatability in py2 and py3
 ### v0.2.2
 - Improved Planet Key Handler
 - Added new tool to insepect planet account quota
