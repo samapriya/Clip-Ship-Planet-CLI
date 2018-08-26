@@ -1,4 +1,4 @@
-import requests,json,re,csv,os,subprocess,urllib2,argparse,getpass
+import requests,json,re,csv,os,subprocess,urllib2,argparse,getpass,sys
 from pprint import pprint
 from os.path import expanduser
 from clip_idlist import idlist
